@@ -6,21 +6,30 @@ using UnityEngine.SceneManagement;
 public class Cogumelo : MonoBehaviour
 
 {
+    public GameObject telaPerdeu; // Referência para a tela de "Perdeu"
+
     // Este método será chamado quando o personagem colidir com o cogumelo
     private void OnTriggerEnter2D(Collider2D other)
     {
         // Verifica se o objeto que colidiu é o personagem (com base na Tag)
         if (other.CompareTag("Personagem"))
         {
-            // Aqui você pode adicionar algum efeito visual ou sonoro antes de perder o jogo
-            Debug.Log("Você perdeu o jogo!");
+            // Desabilita o cogumelo (ou diamante) após a colisão
+            gameObject.SetActive(false);
 
-            // Pode tocar um som ou mostrar uma animação de perda antes de reiniciar a cena
-            // Exemplo: AudioManager.Instance.Play("perda_som");
+            // Exibe a tela de Perdeu
+            telaPerdeu.SetActive(true);
 
-            // Reinicia a cena atual, fazendo o jogo "perder"
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Reinicia a cena
+            // Reinicia a cena após 2 segundos
+            Invoke("ReiniciarJogo", 2f);  // A cena será reiniciada após 2 segundos
         }
     }
+
+    void ReiniciarJogo()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Reinicia a cena
+    }
 }
+
+
 
